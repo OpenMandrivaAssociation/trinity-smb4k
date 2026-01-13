@@ -9,16 +9,7 @@
 
 %define tde_pkg smb4k
 %define tde_prefix /opt/trinity
-%define tde_bindir %{tde_prefix}/bin
-%define tde_datadir %{tde_prefix}/share
-%define tde_docdir %{tde_datadir}/doc
-%define tde_includedir %{tde_prefix}/include
-%define tde_libdir %{tde_prefix}/%{_lib}
-%define tde_mandir %{tde_datadir}/man
-%define tde_tdeappdir %{tde_datadir}/applications/tde
-%define tde_tdedocdir %{tde_docdir}/tde
-%define tde_tdeincludedir %{tde_includedir}/tde
-%define tde_tdelibdir %{tde_libdir}/trinity
+
 
 %undefine __brp_remove_la_files
 %define dont_remove_libtool_files 1
@@ -40,26 +31,17 @@ URL:		http://www.trinitydesktop.org
 
 License:	GPLv2+
 
-#Vendor:		Trinity Desktop
-#Packager:	Francois Andriot <francois.andriot@free.fr>
-
-Prefix:		%{tde_prefix}
 
 Source0:		https://mirror.ppa.trinitydesktop.org/trinity/releases/R%{tde_version}/main/applications/internet/%{tarball_name}-%{tde_version}%{?preversion:~%{preversion}}.tar.xz
 
 BuildSystem:  	cmake
+
 BuildOption:    -DCMAKE_BUILD_TYPE="RelWithDebInfo"
-BuildOption:    -DCMAKE_SKIP_RPATH=OFF
-BuildOption:    -DCMAKE_SKIP_INSTALL_RPATH=OFF
-BuildOption:    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
-BuildOption:    -DCMAKE_INSTALL_RPATH="%{tde_libdir}"
-BuildOption:    -DCMAKE_NO_BUILTIN_CHRPATH=ON
-BuildOption:    -DBIN_INSTALL_DIR=%{tde_bindir}
-BuildOption:    -DCONFIG_INSTALL_DIR="%{tde_confdir}"
-BuildOption:    -DINCLUDE_INSTALL_DIR=%{tde_tdeincludedir}
-BuildOption:    -DLIB_INSTALL_DIR=%{tde_libdir}
-BuildOption:    -DSHARE_INSTALL_PREFIX=%{tde_datadir}
-BuildOption:   -DBUILD_ALL="ON" -DWITH_ALL_OPTIONS="ON"
+BuildOption:    -DCMAKE_INSTALL_PREFIX=%{tde_prefix}
+BuildOption:    -DINCLUDE_INSTALL_DIR=%{tde_prefix}/include/tde
+BuildOption:    -DSHARE_INSTALL_PREFIX=%{tde_prefix}/share
+BuildOption:    -DBUILD_ALL=ON -DWITH_ALL_OPTIONS=ON
+BuildOption:    -DWITH_GCC_VISIBILITY=%{!?with_clang:ON}%{?with_clang:OFF}
 
 BuildRequires:	trinity-tdelibs-devel >= %{tde_version}
 BuildRequires:	trinity-tdebase-devel >= %{tde_version}
@@ -88,37 +70,37 @@ possible.
 
 %files -f %{tde_pkg}.lang
 %defattr(-,root,root,-)
-%{tde_bindir}/smb4k
-%{tde_bindir}/smb4k_cat
-%{tde_bindir}/smb4k_kill
-%{tde_bindir}/smb4k_mount
-%{tde_bindir}/smb4k_mv
-%{tde_bindir}/smb4k_umount
-%{tde_libdir}/libsmb4kcore.so.2
-%{tde_libdir}/libsmb4kcore.so.2.0.0
-%{tde_libdir}/libsmb4kdialogs.la
-%{tde_libdir}/libsmb4kdialogs.so
-%{tde_tdelibdir}/konqsidebar_smb4k.la
-%{tde_tdelibdir}/konqsidebar_smb4k.so
-%{tde_tdelibdir}/libsmb4tdeconfigdialog.la
-%{tde_tdelibdir}/libsmb4tdeconfigdialog.so
-%{tde_tdelibdir}/libsmb4knetworkbrowser.la
-%{tde_tdelibdir}/libsmb4knetworkbrowser.so
-%{tde_tdelibdir}/libsmb4ksearchdialog.la
-%{tde_tdelibdir}/libsmb4ksearchdialog.so
-%{tde_tdelibdir}/libsmb4ksharesiconview.la
-%{tde_tdelibdir}/libsmb4ksharesiconview.so
-%{tde_tdelibdir}/libsmb4kshareslistview.la
-%{tde_tdelibdir}/libsmb4kshareslistview.so
-%{tde_tdeappdir}/smb4k.desktop
-%{tde_datadir}/apps/konqsidebartng/add/smb4k_add.desktop
-%{tde_datadir}/apps/smb4k/
-%{tde_datadir}/apps/smb4knetworkbrowserpart/
-%{tde_datadir}/apps/smb4ksharesiconviewpart/
-%{tde_datadir}/apps/smb4kshareslistviewpart/
-%{tde_datadir}/config.kcfg/smb4k.kcfg
-%{tde_datadir}/icons/crystalsvg/*/apps/smb4k.png
-%{tde_tdedocdir}/HTML/en/smb4k/
+%{tde_prefix}/bin/smb4k
+%{tde_prefix}/bin/smb4k_cat
+%{tde_prefix}/bin/smb4k_kill
+%{tde_prefix}/bin/smb4k_mount
+%{tde_prefix}/bin/smb4k_mv
+%{tde_prefix}/bin/smb4k_umount
+%{tde_prefix}/%{_lib}/libsmb4kcore.so.2
+%{tde_prefix}/%{_lib}/libsmb4kcore.so.2.0.0
+%{tde_prefix}/%{_lib}/libsmb4kdialogs.la
+%{tde_prefix}/%{_lib}/libsmb4kdialogs.so
+%{tde_prefix}/%{_lib}/trinity/konqsidebar_smb4k.la
+%{tde_prefix}/%{_lib}/trinity/konqsidebar_smb4k.so
+%{tde_prefix}/%{_lib}/trinity/libsmb4tdeconfigdialog.la
+%{tde_prefix}/%{_lib}/trinity/libsmb4tdeconfigdialog.so
+%{tde_prefix}/%{_lib}/trinity/libsmb4knetworkbrowser.la
+%{tde_prefix}/%{_lib}/trinity/libsmb4knetworkbrowser.so
+%{tde_prefix}/%{_lib}/trinity/libsmb4ksearchdialog.la
+%{tde_prefix}/%{_lib}/trinity/libsmb4ksearchdialog.so
+%{tde_prefix}/%{_lib}/trinity/libsmb4ksharesiconview.la
+%{tde_prefix}/%{_lib}/trinity/libsmb4ksharesiconview.so
+%{tde_prefix}/%{_lib}/trinity/libsmb4kshareslistview.la
+%{tde_prefix}/%{_lib}/trinity/libsmb4kshareslistview.so
+%{tde_prefix}/share/applications/tde/smb4k.desktop
+%{tde_prefix}/share/apps/konqsidebartng/add/smb4k_add.desktop
+%{tde_prefix}/share/apps/smb4k/
+%{tde_prefix}/share/apps/smb4knetworkbrowserpart/
+%{tde_prefix}/share/apps/smb4ksharesiconviewpart/
+%{tde_prefix}/share/apps/smb4kshareslistviewpart/
+%{tde_prefix}/share/config.kcfg/smb4k.kcfg
+%{tde_prefix}/share/icons/crystalsvg/*/apps/smb4k.png
+%{tde_prefix}/share/doc/tde/HTML/en/smb4k/
 
 ##########
 
@@ -131,14 +113,14 @@ Requires:		%{name} = %{?epoch:%{epoch}:}%{version}-%{release}
 %{summary}
 
 %files devel
-%{tde_tdeincludedir}/*.h
-%{tde_libdir}/libsmb4kcore.la
-%{tde_libdir}/libsmb4kcore.so
+%{tde_prefix}/include/tde/*.h
+%{tde_prefix}/%{_lib}/libsmb4kcore.la
+%{tde_prefix}/%{_lib}/libsmb4kcore.so
 
 
 %conf -p
 unset QTDIR QTINC QTLIB
-export PKG_CONFIG_PATH="%{tde_libdir}/pkgconfig"
+export PKG_CONFIG_PATH="%{tde_prefix}/%{_lib}/pkgconfig"
 
 
 %install -a
